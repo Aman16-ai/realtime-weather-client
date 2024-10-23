@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import WeatherStatusContainer from "../components/ui/WeatherStatusContainer";
 import WeatherSummary from "../components/viszulization/WeatherSummary";
 import { getCitySummaryDataService, lastestWeatherOfCityService } from "../service/weather";
+import { useSearchParams } from "react-router-dom";
 
 export default function Home() {
   const [latestCityWeather, setLatestCityWeather] = useState({
@@ -284,9 +285,16 @@ export default function Home() {
     },
   });
 
+  const [searchCity,setSearchCity] = useState("Delhi")
+
+  const [searchParams,setSearchParams] = useSearchParams()
+
+  useEffect(() => {
+    setSearchCity(searchParams.get("search"))
+  },[searchParams])
   const getLatestWeatherOfCity = async() => {
     try {
-      const data = await lastestWeatherOfCityService("?city=Delhi&filter=latest")
+      const data = await lastestWeatherOfCityService(`?city=${searchCity}&filter=latest`)
       setLatestCityWeather(data)
       console.log(data)
     }
@@ -297,7 +305,7 @@ export default function Home() {
 
   const getCitySummary = async() => {
     try {
-      const data = await getCitySummaryDataService("?city=Delhi")
+      const data = await getCitySummaryDataService(`?city=${searchCity}`)
       // setLatestCityWeather(data)
 
       //building the graph
@@ -345,10 +353,38 @@ export default function Home() {
     }
   }
 
+  const getWeatherDistribution = async () => {
+    try {
+      const result = await getCitySummaryDataService(`?city=${searchCity}&filter=7`)
+      console.log('dist',result)
+      const pieData = []
+      for(let r of result) {
+        pieData.push({value:r.count,name:r.dominant_weather})
+      }
+      let weatherConditionDataCopy = {...weatherConditionData}
+      weatherConditionDataCopy = {
+        ...weatherConditionDataCopy,
+        series : [
+          {
+            ...weatherConditionDataCopy.series[0],
+            data : pieData
+          }
+        ]
+      }
+
+      setWeatherConditionData(weatherConditionDataCopy)
+    }
+    catch(err) {
+      alert(err.toString())
+    }
+  }
   useEffect(() => {
-    getLatestWeatherOfCity()
+    if(searchCity !== null) {
+      getLatestWeatherOfCity()
     getCitySummary()
-  },[])
+    getWeatherDistribution()
+    }
+  },[searchCity])
   return (
     <>
       <WeatherStatusContainer data={latestCityWeather} />

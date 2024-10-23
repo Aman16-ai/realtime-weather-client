@@ -57,23 +57,17 @@ function SideNav() {
           id="panel1a-header"
         >
           <PermIdentityOutlinedIcon  sx={{ stroke: "#ffffff", strokeWidth: 0.7 }} fontSize='medium' />
-          <Typography sx={{marginLeft:"5px"}}>Users</Typography>
+          <Typography sx={{marginLeft:"5px"}}>Config</Typography>
         </AccordionSummary>
         <AccordionDetails>
-        <NavLink className={({isActive}) => `${isActive ? "text-blue-700" : "text-black"}`} to={"/AddUser"}>
+        <NavLink className={({isActive}) => `${isActive ? "text-blue-700" : "text-black"}`} to={"/alert-config"}>
         <div className='flex'>
         <PersonAddOutlinedIcon  sx={{ stroke: "#ffffff", strokeWidth: 0.7 }} fontSize='medium' />
-        <Typography sx={{marginLeft:"5px"}}>Add User</Typography>
+        <Typography sx={{marginLeft:"5px"}}>Alert Config</Typography>
         </div>
         </NavLink>
         </AccordionDetails>
         <AccordionDetails>
-        <NavLink className={({isActive}) => `${isActive ? "text-blue-700" : "text-black"}`} to={"/manageUsers"}>
-        <div className='flex'>
-        <ManageAccountsOutlinedIcon  sx={{ stroke: "#ffffff", strokeWidth: 0.7 }} fontSize='medium' />
-        <Typography sx={{marginLeft:"5px"}}>Manage Users</Typography>
-        </div>
-        </NavLink>
         </AccordionDetails>
           </Accordion>:<PermIdentityOutlinedIcon  sx={{ stroke: "#ffffff", strokeWidth: 0.7 }} fontSize='medium' />}
         </li>

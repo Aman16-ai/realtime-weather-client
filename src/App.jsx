@@ -5,6 +5,7 @@ import './App.css'
 import Layout from './components/Layout'
 import { createBrowserRouter,RouterProvider } from 'react-router-dom'
 import Home from './page/Home'
+import AlertConfig from './page/AlertConfig'
 function App() {
   const router = createBrowserRouter([
     {
@@ -14,6 +15,10 @@ function App() {
         {
           index:true,
           element:<Home/>
+        },
+        {
+          path:"/alert-config",
+          element:<AlertConfig/>
         }
       ]
     }
